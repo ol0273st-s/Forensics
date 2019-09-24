@@ -65,6 +65,8 @@ for x in hex_root:
 
 data_offset=16896
 #print relevant entries
+#TODO add all data fields from table 2
+
 for x in filesizes:
     if x[0]!= '0000' and x[1]!= '00000000' and x[1]!= 'ffffffff':
         f=open(x[2],"w+")
@@ -90,9 +92,16 @@ for y in range(start_zip,len(hex_data)-4):
     temp=read_hex(hex_data,y,4)
     if temp=='06054b50':
         end_zip=y
+        print temp
 print start_zip
 print end_zip
-print(int(str(start_cluster),16))
-print(int(str(end_zip),16))
+print len(hex_data)
+zip_size=read_hex(hex_data,start_zip+18,4)
+zip_size_dec= int(zip_size,16)
+#TODO read zip size and only parse length
 
-#TODO parse and output zip file
+f = open("evidence.zip", "w+")
+
+for x in range (start_zip, len(hex_data)):
+    f.write(hex_data[x].decode("hex"))
+
